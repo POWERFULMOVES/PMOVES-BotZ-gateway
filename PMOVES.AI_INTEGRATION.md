@@ -74,7 +74,7 @@ nats sub "services.announce.v1"
 - **Slug:** botz-gateway
 - **Tier:** api
 - **Port:** 8052
-- **Health Check:** http://localhost:8052/healthz
+- **Health Check:** <http://localhost:8052/healthz>
 - **NATS Enabled:** True
 - **GPU Enabled:** False
 

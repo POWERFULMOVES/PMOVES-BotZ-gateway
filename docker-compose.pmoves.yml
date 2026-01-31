@@ -36,11 +36,12 @@ x-env-tier-api: &env-tier-api
     - RATE_LIMIT_ENABLED=${RATE_LIMIT_ENABLED:-true}
 
 # Agent Tier Environment
+# Note: env.tier-agent should be created if using this anchor
 x-env-tier-agent: &env-tier-agent
   <<: *pmoves-env-base
   env_file:
     - env.shared
-    - env.tier-agent  # Agent tier specific configuration
+    # - env.tier-agent  # Create this file for agent tier specific configuration
   environment:
     - TIER=agent
     - MAX_CONCURRENT_AGENTS=${MAX_CONCURRENT_AGENTS:-50}
@@ -51,7 +52,7 @@ x-env-tier-worker: &env-tier-worker
   <<: *pmoves-env-base
   env_file:
     - env.shared
-    - env.tier-worker # Worker tier specific configuration
+    # - env.tier-worker # Create this file for worker tier specific configuration
   environment:
     - TIER=worker
     - MAX_CONCURRENT_JOBS=${MAX_CONCURRENT_JOBS:-10}
@@ -62,7 +63,7 @@ x-env-tier-data: &env-tier-data
   <<: *pmoves-env-base
   env_file:
     - env.shared
-    - env.tier-data   # Data tier specific configuration
+    # - env.tier-data   # Create this file for data tier specific configuration
   environment:
     - TIER=data
     - MAX_CONNECTIONS=${MAX_CONNECTIONS:-100}
@@ -72,7 +73,7 @@ x-env-tier-llm: &env-tier-llm
   <<: *pmoves-env-base
   env_file:
     - env.shared
-    - env.tier-llm    # LLM tier specific configuration
+    # - env.tier-llm    # Create this file for LLM tier specific configuration
   environment:
     - TIER=llm
     - MAX_CONCURRENT_REQUESTS=${MAX_CONCURRENT_REQUESTS:-50}
@@ -82,7 +83,7 @@ x-env-tier-media: &env-tier-media
   <<: *pmoves-env-base
   env_file:
     - env.shared
-    - env.tier-media  # Media tier specific configuration
+    # - env.tier-media  # Create this file for media tier specific configuration
   environment:
     - TIER=media
     - GPU_ENABLED=${GPU_ENABLED:-true}
@@ -93,7 +94,7 @@ x-env-tier-ui: &env-tier-ui
   <<: *pmoves-env-base
   env_file:
     - env.shared
-    - env.tier-ui     # UI tier specific configuration
+    # - env.tier-ui     # Create this file for UI tier specific configuration
   environment:
     - TIER=ui
 

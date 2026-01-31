@@ -186,14 +186,18 @@ _health_checker = HealthChecker()
 
 
 def health_check(checks: List[DependencyCheck] = None):
-    """Decorator to add health checks to a function."""
+    """Decorator to add health checks to a function.
+
+    Checks are registered once at decoration time, not on each call.
+    """
     def decorator(func: Callable):
+        # Register checks once at decoration time
+        if checks:
+            for check in checks:
+                _health_checker.add_check(check)
+
         @wraps(func)
         async def wrapper(*args, **kwargs):
-            checker = _health_checker
-            if checks:
-                for check in checks:
-                    checker.add_check(check)
             return await func(*args, **kwargs)
         return wrapper
     return decorator

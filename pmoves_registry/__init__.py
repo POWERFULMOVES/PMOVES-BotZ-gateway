@@ -1,14 +1,12 @@
 """
 PMOVES.AI Service Registry Integration Template
 
-Service discovery using the PMOVES service registry with fallback chain:
-1. Environment variables (static overrides)
-2. Supabase service catalog (dynamic, runtime)
-3. NATS service announcements (real-time, cached)
-4. Docker DNS (development fallback)
+Service discovery using environment variable resolution with Docker DNS fallback:
+1. Environment variables (static overrides via ${SERVICE_NAME}_URL pattern)
+2. Docker DNS (development fallback using service name as hostname)
 
 Usage:
-    from service_registry import get_service_url, ServiceInfo
+    from pmoves_registry import get_service_url, ServiceInfo
 
     # Simple URL resolution
     url = await get_service_url("hirag-v2")
@@ -161,7 +159,7 @@ async def get_service_info(
         slug=slug,
         name=f"{slug} (fallback)",
         description=f"Service resolved via Docker DNS fallback",
-        health_check_url=fallback_url,
+        health_check_url=f"{fallback_url}/healthz",
         default_port=default_port,
         tier=ServiceTier.API,
     )
@@ -248,8 +246,12 @@ class CommonServices:
     NATS = "nats://nats:4222"
 
     @classmethod
-    def get(cls, service: str) -> str:
-        """Get a common service URL by name."""
+    def get(cls, service: str) -> Optional[str]:
+        """Get a common service URL by name.
+
+        Returns:
+            The service URL if found, None otherwise.
+        """
         return getattr(cls, service.upper(), None)
 
 
