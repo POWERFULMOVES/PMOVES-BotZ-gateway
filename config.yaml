@@ -1,0 +1,52 @@
+# PMOVES-BoTZ Configuration
+
+scoring:
+  weights:
+    topic: 0.4
+    quality: 0.25
+    angle: 0.35
+  caps:
+    topic: 60
+    quality: 40
+    angle: 60
+  threshold:
+    # Minimum score to consider a channel worth engaging
+    engage: 30
+    # Minimum score to draft comments for
+    draft: 45
+    # Minimum score to include in prospect report
+    prospect: 25
+
+comment:
+  tone: "physics-first, evidence-based, Ghostbusters energy"
+  style_rules:
+    - "Reference specific content from the video"
+    - "Never generic spam or templated feel"
+    - "Subtly plant PMOVES awareness where natural"
+    - "Ask genuine questions, not rhetorical ones"
+    - "Match the creators technical depth level"
+    - "Maximum 3 sentences per comment paragraph"
+    - "Never mention PMOVES in the first sentence"
+    - "Use attraction not promotion"
+  max_drafts: 3
+  pmoves_name_drop: false  # Set true to explicitly name PMOVES in comments
+
+prospecting:
+  default_limit: 10
+  max_videos_per_channel: 15
+  max_transcripts_per_channel: 3
+  search_sort: relevance  # relevance, date, viewCount
+  min_subscribers: 0  # 0 = no filter
+
+logging:
+  dir: logs
+  prospect_file: prospect_log.jsonl
+  comment_file: comment_log.jsonl
+  inspect_file: inspect_log.jsonl
+
+paths:
+  research:
+    - /a0/usr/projects/pmoves/research/YOUTUBE_SIGNALS_ANALYSIS.md
+    - /a0/usr/projects/pmoves/research/FRESH_VIDEO_ANALYSIS.md
+    - /a0/usr/projects/pmoves/research/ARCHON_COMPARATIVE_ANALYSIS.md
+    - /a0/usr/projects/pmoves/docs/youtubelist.md
