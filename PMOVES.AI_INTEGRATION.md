@@ -1,8 +1,8 @@
-# PMOVES.AI Integration Guide for BoTZ MCP Gateway
+# PMOVES.AI Integration Guide for BotZ Gateway
 
 ## Integration Complete
 
-The PMOVES.AI integration template has been applied to BoTZ MCP Gateway.
+The PMOVES.AI integration template has been applied to BotZ Gateway.
 
 ## Next Steps
 
@@ -11,7 +11,7 @@ The PMOVES.AI integration template has been applied to BoTZ MCP Gateway.
 Edit the following files with your service-specific values:
 
 - `env.shared` - Base environment configuration
-- `env.tier-agent` - AGENT tier specific configuration
+- `env.tier-api` - API tier specific configuration
 - `chit/secrets_manifest_v2.yaml` - Add your service's required secrets
 
 ### 2. Update Docker Compose
@@ -21,7 +21,7 @@ Add the PMOVES.AI environment anchor to your `docker-compose.yml`:
 ```yaml
 services:
   botz-gateway:
-    <<: [*env-tier-agent, *pmoves-healthcheck]
+    <<: [*env-tier-api, *pmoves-healthcheck]
     # Your existing service configuration...
 ```
 
@@ -48,10 +48,10 @@ from pmoves_announcer import announce_service
 async def startup():
     await announce_service(
         slug="botz-gateway",
-        name="BoTZ MCP Gateway",
-        url=f"http://botz-gateway:8080",
-        port=8080,
-        tier="agent"
+        name="BotZ Gateway",
+        url=f"http://botz-gateway:8052",
+        port=8052,
+        tier="api"
     )
 ```
 
@@ -59,7 +59,7 @@ async def startup():
 
 ```bash
 # Test health check
-curl http://localhost:8080/healthz
+curl http://localhost:8052/healthz
 
 # Verify environment variables loaded
 docker compose exec botz-gateway env | grep PMOVES
@@ -70,13 +70,23 @@ nats sub "services.announce.v1"
 
 ## Service Details
 
-- **Name:** BoTZ MCP Gateway
+- **Name:** BotZ Gateway
 - **Slug:** botz-gateway
-- **Tier:** agent
-- **Port:** Per config (gateway)
-- **Health Check:** http://localhost:8080/healthz
+- **Tier:** api
+- **Port:** 8052
+- **Health Check:** <http://localhost:8052/healthz>
 - **NATS Enabled:** True
 - **GPU Enabled:** False
+
+## Files Created
+
+- `env.shared` - Base PMOVES.AI environment
+- `env.tier-api` - Tier-specific environment
+- `chit/secrets_manifest_v2.yaml` - CHIT secrets configuration
+- `pmoves_health/` - Health check module
+- `pmoves_announcer/` - NATS service announcer
+- `pmoves_registry/` - Service registry client
+- `docker-compose.pmoves.yml` - PMOVES.AI YAML anchors
 
 ## Support
 
